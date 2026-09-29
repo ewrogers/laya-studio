@@ -6,7 +6,13 @@ Laya Studio brings the playground and Laya's Jev-compatible API together in one 
 
 The interface uses the blue from Laya's logo with off-white and near-black themes. It follows your system appearance by default, with a sliding Light / System / Dark switch.
 
-![Laya Studio playground showing a real local decision and option probabilities](docs/studio-dark.jpg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/studio-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/studio-light.jpg">
+  <img alt="Laya Studio playground with a real local yes/no decision, probability bars, and editable context" src="docs/studio-dark.jpg">
+</picture>
+
+_A real local inference in the playground. Available in [light](docs/studio-light.jpg) and [dark](docs/studio-dark.jpg) themes._
 
 ## Quick start with Docker (recommended)
 
