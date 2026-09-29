@@ -1,0 +1,10 @@
+# Start Laya natively on macOS first; see README.md.
+name: laya-studio-metal
+services:
+  web:
+    build: .
+    ports:
+      - '${LAYA_BIND_ADDRESS:-127.0.0.1}:${LAYA_WEB_PORT:-3000}:80'
+    environment:
+      LAYA_BACKEND_URL: http://host.docker.internal:${LAYA_API_PORT:-8000}
+    restart: unless-stopped

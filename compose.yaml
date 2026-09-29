@@ -1,0 +1,47 @@
+name: laya-studio
+services:
+  web:
+    build: .
+    ports:
+      - '${LAYA_BIND_ADDRESS:-127.0.0.1}:${LAYA_WEB_PORT:-3000}:80'
+    environment:
+      LAYA_BACKEND_URL: http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+  api:
+    build:
+      context: https://github.com/NandhaKishorM/laya.git#9d955671415fc19f069b9cc998928075c1f255ec
+      args:
+        TORCH_INDEX: cpu
+        TORCH_VERSION: 2.14.0
+    command: ['laya-serve']
+    ports:
+      - '${LAYA_BIND_ADDRESS:-127.0.0.1}:${LAYA_API_PORT:-8000}:8000'
+    environment:
+      LAYA_HOST: 0.0.0.0
+      LAYA_PORT: 8000
+      LAYA_DEVICE: cpu
+      LAYA_PRELOAD: '0'
+      LAYA_THREADS: ${LAYA_THREADS:-4}
+      LAYA_MAX_LOADED: ${LAYA_MAX_LOADED:-2}
+      LAYA_API_KEY: ${LAYA_API_KEY:-}
+      HF_HOME: /home/laya/.cache/huggingface
+    volumes:
+      - model-cache:/home/laya/.cache/huggingface
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'python',
+          '-c',
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5)",
+        ]
+      interval: 15s
+      timeout: 10s
+      start_period: 30s
+      retries: 5
+    restart: unless-stopped
+volumes:
+  model-cache:
