@@ -22,6 +22,13 @@ Laya Studio is a local web UI for [Laya](https://github.com/NandhaKishorM/laya).
 - `choice` returns a label and distribution; `score` is a zero-based expected ordinal level; `noul` is P(true), not a generated boolean. Explicit yes/no criteria matter.
 - Model probabilities are not measured accuracy. Keep that distinction in result copy.
 
+## Commit conventions
+
+- Use Conventional Commits for all commit messages: `type(scope): description` (scope is optional).
+- Choose the type that describes the change, such as `feat`, `fix`, `docs`, `refactor`, `test`, `build`, `ci`, or `chore`. Use a concise, imperative description.
+- Mark breaking changes with `!` after the type/scope and explain them in a `BREAKING CHANGE:` footer.
+- Keep each commit focused on one coherent change.
+
 ## Implementation conventions
 
 - Use strict TypeScript, functional React components, and hooks. Prefer small components and explicit data flow; extract cohesive UI sections as they grow.
