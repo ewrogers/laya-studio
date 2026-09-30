@@ -67,9 +67,11 @@ test('score and yes/no use their actual response types', async ({ page }) => {
     });
   });
   await page.goto('/');
+  await page.getByRole('button', { name: /Try an example/ }).click();
   await page.getByRole('button', { name: /Read the urgency/ }).click();
   await page.getByRole('button', { name: 'Run decision' }).click();
   await expect(page.locator('.answer-value')).toContainText('1.80');
+  await page.getByRole('button', { name: /Try an example/ }).click();
   await page.getByRole('button', { name: /Spot a refund request/ }).click();
   await page.getByRole('button', { name: 'Run decision' }).click();
   await expect(page.locator('.answer-value')).toContainText('Yes');

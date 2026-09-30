@@ -21,7 +21,6 @@ import {
   Sparkles,
   Trash2,
   X,
-  Zap,
 } from 'lucide-react';
 import {
   examples,
@@ -55,6 +54,7 @@ function Mark({ small = false }: { small?: boolean }) {
       aria-hidden="true"
     >
       <path
+        pathLength="100"
         d="M9 12v9a11 11 0 0 0 22 0v-9M16 10v11a4 4 0 0 0 8 0V10"
         stroke="currentColor"
         strokeWidth="3.4"
@@ -292,7 +292,6 @@ export default function App() {
           </span>
           <span className="studio-tag">STUDIO</span>
         </a>
-        <div className="workspace-label">YOUR WORKSPACE</div>
         <nav aria-label="Main navigation">
           <button
             className={page === 'playground' ? 'nav-item active' : 'nav-item'}
@@ -313,23 +312,6 @@ export default function App() {
             <Code2 size={18} /> API access <ArrowUpRight className="nav-end" size={15} />
           </button>
         </nav>
-        <div className="sidebar-note">
-          <div className="note-icon">
-            <Zap size={18} />
-          </div>
-          <strong>
-            Small model.
-            <br />
-            Clear decisions.
-          </strong>
-          <p>
-            One forward pass.
-            <br />A little less uncertainty.
-          </p>
-          <a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noreferrer">
-            Meet Laya <ArrowUpRight size={14} />
-          </a>
-        </div>
         <div className="sidebar-bottom">
           <button className="connection" onClick={() => setSettings(true)}>
             <span className={`status-dot ${health ? 'online' : ''}`} />
@@ -350,9 +332,6 @@ export default function App() {
             <Settings2 size={15} />
           </button>
           <ThemeSwitch value={theme} onChange={setTheme} />
-          <div className="sidebar-footer">
-            LOCAL BY DESIGN <span>v1.0</span>
-          </div>
         </div>
       </aside>
 
@@ -378,26 +357,20 @@ export default function App() {
         <div className="page-content">
           <section className="page-heading">
             <div>
-              <div className="eyebrow">
-                <span /> THE DECISION WORKSPACE
-              </div>
               <h1>
                 {page === 'playground'
-                  ? 'A little context. A little clarity.'
+                  ? 'Decision playground'
                   : page === 'history'
-                    ? 'Every decision, revisited.'
-                    : 'Your next connection.'}
+                    ? 'Run history'
+                    : 'API access'}
               </h1>
               <p>
                 {page === 'playground'
-                  ? 'Turn your context into a decision. No prompting gymnastics required.'
+                  ? 'Choose an answer, score a scale, or check a yes/no statement.'
                   : page === 'history'
                     ? 'Your last 30 runs, saved only in this browser.'
-                    : 'The same local engine, wherever your work happens.'}
+                    : 'Connect your applications to the Laya API.'}
               </p>
-            </div>
-            <div className="local-pill">
-              <span /> Runs on your machine
             </div>
           </section>
 
@@ -451,8 +424,7 @@ export default function App() {
                 <section className="panel input-panel">
                   <div className="panel-header">
                     <div>
-                      <span className="step">01</span>
-                      <h2>Set the scene</h2>
+                      <h2>Input</h2>
                     </div>
                     <button
                       className="icon-button"
@@ -480,7 +452,6 @@ export default function App() {
                       placeholder="Paste a message, a review, or anything you want to understand…"
                     />
                     <div className="input-meta">
-                      <span>Plain text input</span>
                       <span>{draft.state.length.toLocaleString()} / 50,000</span>
                     </div>
                     <div className="field-heading question-label">
@@ -506,7 +477,7 @@ export default function App() {
                           ? `${draft.options.length} options`
                           : draft.mode === 'score'
                             ? 'Ordered from low to high'
-                            : 'A little specificity helps'}
+                            : 'Describe when each outcome applies'}
                       </span>
                     </div>
                     {draft.mode === 'choice' && (
@@ -660,8 +631,7 @@ export default function App() {
                 <section className="panel result-panel" aria-label="Decision result">
                   <div className="panel-header">
                     <div>
-                      <span className="step">02</span>
-                      <h2>The clarity</h2>
+                      <h2>Result</h2>
                     </div>
                     <div className="result-tabs">
                       <button
@@ -681,10 +651,10 @@ export default function App() {
                   <div className="result-body" aria-live="polite">
                     {busy ? (
                       <div className="empty-result">
-                        <div className="orb working">
+                        <div className="loading-mark">
                           <Mark />
                         </div>
-                        <h3>Finding the signal…</h3>
+                        <h3>Running decision…</h3>
                         <p>
                           Laya is reading your context.
                           <br />
@@ -815,64 +785,13 @@ export default function App() {
                       </>
                     ) : (
                       <div className="empty-result">
-                        <div className="orb">
-                          <span className="orbit-dot one" />
-                          <span className="orbit-dot two" />
-                          <Mark />
-                        </div>
-                        <h3>Let’s make a little sense of it.</h3>
-                        <p>
-                          Add your context, define the possibilities,
-                          <br />
-                          and let Laya find the best fit.
-                        </p>
-                        <div className="empty-hint">
-                          <span>01</span> Context <ArrowRight size={13} />
-                          <span>02</span> Clarity
-                        </div>
+                        <h3>No result yet</h3>
+                        <p>Review the input, then select Run decision.</p>
                       </div>
                     )}
                   </div>
-                  <div className="result-footer">
-                    <Zap size={14} />
-                    <span>One forward pass. No generated text.</span>
-                    <span className="private-tag">LOCAL & PRIVATE</span>
-                  </div>
                 </section>
               </div>
-              <section className="starter-section">
-                <div className="starter-heading">
-                  <h2>A few places to start</h2>
-                  <span>Small decisions. Real possibilities.</span>
-                </div>
-                <div className="starter-grid">
-                  {examples.map((e, i) => (
-                    <button
-                      key={e.name}
-                      disabled={busy}
-                      onClick={() => loadExample(i)}
-                      className="starter-card"
-                    >
-                      <span className={`starter-icon icon-${i}`}>
-                        {i === 0 ? (
-                          <Layers3 size={20} />
-                        ) : i === 1 ? (
-                          <SlidersHorizontal size={20} />
-                        ) : (
-                          <Check size={20} />
-                        )}
-                      </span>
-                      <span>
-                        <strong>{e.name}</strong>
-                        <small>
-                          {e.category} <span>·</span> {modeNames[e.draft.mode]}
-                        </small>
-                      </span>
-                      <ArrowUpRight size={17} />
-                    </button>
-                  ))}
-                </div>
-              </section>
             </>
           )}
 
@@ -899,8 +818,8 @@ export default function App() {
               {!history.length ? (
                 <div className="empty-result history-empty">
                   <History size={34} />
-                  <h3>A clean slate.</h3>
-                  <p>Your completed decisions will appear here.</p>
+                  <h3>No saved runs</h3>
+                  <p>Completed runs will appear here.</p>
                   <button className="primary-button" onClick={() => setPage('playground')}>
                     Open playground <ArrowRight size={14} />
                   </button>
@@ -955,18 +874,18 @@ export default function App() {
                 <div className="panel-header">
                   <div>
                     <Code2 size={18} />
-                    <h2>Made to connect</h2>
+                    <h2>API endpoints</h2>
                   </div>
                   <span className="method-badge">Jev-compatible</span>
                 </div>
                 <div className="api-content">
-                  <h3>One endpoint. Three primitives.</h3>
+                  <h3>Send a decision request</h3>
                   <p>
                     Send context and questions to your local Laya server. Use the request alongside
                     as a starting point.
                   </p>
                   <label>
-                    FROM YOUR MAC <small>Default Compose port</small>
+                    FROM THIS COMPUTER <small>Default Compose port</small>
                   </label>
                   <code>http://localhost:8000/v1/systemone</code>
                   <label>FROM ANOTHER COMPOSE SERVICE</label>
@@ -1014,9 +933,7 @@ export default function App() {
             </div>
           )}
           <footer className="page-footer">
-            <span>
-              <Mark small /> A quieter way to decide.
-            </span>
+            <span>Laya Studio</span>
             <a href="https://github.com/NandhaKishorM/laya" target="_blank" rel="noreferrer">
               Powered by Laya <ExternalLink size={12} />
             </a>
